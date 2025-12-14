@@ -1,5 +1,7 @@
 import asyncio
-from init_bot import bot, dp
+from infra.init_bot import bot, dp
+import logging
+logging.basicConfig(level=logging.INFO)
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from aiogram import types
 from datetime import datetime
-from adapters.send_message import MessageSender
+from adapters.handlers.send_message import MessageSender
 
 
 
