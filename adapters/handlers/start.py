@@ -9,8 +9,7 @@ class StartHandler:
     Отвечает за первичную регистрацию пользователя в боте.
     """
 
-    def __init__(self, registration_state: RegistrationState, sender: MessageSender):
-        self.registration_state = registration_state
+    def __init__(self, sender: MessageSender):
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
