@@ -13,9 +13,5 @@ class StartHandler:
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
-    
+        await self.sender.send_text(message, text="Привет 👋")
         # need some logic with saving in dabase etc.
-
-        await self.sender.send_text(
-            text="Привет! Ты успешно зарегистрирован!"
-        )

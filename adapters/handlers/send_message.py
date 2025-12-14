@@ -1,6 +1,6 @@
 from __future__ import annotations
 from aiogram import Bot
-
+from aiogram.types import Message
 
 class MessageSender:
     """
@@ -11,9 +11,5 @@ class MessageSender:
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    async def send_text(self, chat_id: int, text: str, reply_markup=None):
-        return await self.bot.send_message(
-            chat_id=chat_id,
-            text=text,
-            reply_markup=reply_markup
-        )
+    async def send_text(self, message: Message, text: str):
+        await message.answer(text)
