@@ -13,12 +13,8 @@ class MessageHandler:
 
     async def handle(self, message: types.Message) -> None:
 
-        await message.answer(
-            "Главное меню",
-            reply_markup=MainMenuKeyboard.build(),
-        )
-
-        await message.answer(
+        await self.sender.send_text(
+            message,
             "Подтвердить?",
             reply_markup=ConfirmKeyboard.build(),
         )
