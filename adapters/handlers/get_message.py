@@ -11,7 +11,7 @@ class MessageHandler:
     def __init__(self, sender: MessageSender):
         self.sender = sender
 
-    async def (self, message: types.Message) -> None:
+    async def handle(self, message: types.Message) -> None:
 
         await message.answer(
             "Главное меню",
