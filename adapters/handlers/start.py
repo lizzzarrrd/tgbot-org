@@ -1,6 +1,6 @@
 from __future__ import annotations
 from aiogram import types
-from .send_message import MessageSender
+from adapters.send_message import MessageSender
 
 
 class StartHandler:
