@@ -5,12 +5,6 @@ from aiogram.types import (
     KeyboardButton,
 )
 
-from domain.models.buttons import (
-    MainMenuButton,
-    ConfirmButton,
-    EditEventButton,
-)
-
 
 class MainMenuKeyboard:
     @staticmethod

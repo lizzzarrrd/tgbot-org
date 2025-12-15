@@ -27,4 +27,4 @@ async def start_command(message: types.Message):
 
 @router.message()
 async def all_messages(message: types.Message):
-    await StartHandler(sender=sender).handle(message)
+    await MessageHandler(sender=sender).handle(message)
