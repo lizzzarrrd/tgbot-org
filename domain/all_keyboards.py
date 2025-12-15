@@ -28,15 +28,19 @@ class ConfirmKeyboard:
         builder = InlineKeyboardBuilder()
 
         builder.button(
-            text="Да",
+            text=ConfirmButton.YES.value,
             callback_data=ConfirmButton.YES.value,
         )
         builder.button(
-            text="Нет",
+            text=ConfirmButton.NO.value,
             callback_data=ConfirmButton.NO.value,
         )
+        builder.button(
+            text=ConfirmButton.REJECT.value,
+            callback_data=ConfirmButton.REJECT.value,
+        )
 
-        builder.adjust(2)
+        builder.adjust(1)
         return builder.as_markup()
 
 class EditEventKeyboard:
@@ -45,19 +49,19 @@ class EditEventKeyboard:
         builder = InlineKeyboardBuilder()
 
         builder.button(
-            text="Изменить дату",
+            text=EditEventButton.EDIT_DATE.value,
             callback_data=EditEventButton.EDIT_DATE.value,
         )
         builder.button(
-            text="Изменить время",
+            text=EditEventButton.EDIT_TIME.value,
             callback_data=EditEventButton.EDIT_TIME.value,
         )
         builder.button(
-            text="Получить .ics",
+            text=EditEventButton.MAKE_ICS.value,
             callback_data=EditEventButton.MAKE_ICS.value,
         )
         builder.button(
-            text="Добавить в календарь",
+            text=EditEventButton.SAVE_CALENDAR.value,
             callback_data=EditEventButton.SAVE_CALENDAR.value,
         )
 

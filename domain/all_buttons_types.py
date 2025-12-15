@@ -8,12 +8,13 @@ class MainMenuButton(StrEnum):
 
 
 class ConfirmButton(StrEnum):
-    YES = "event_yes"
-    NO = "event_no"
+    YES = "Да"
+    NO = "Нет"
+    REJECT = "Отменить регистрацию события"
 
 
 class EditEventButton(StrEnum):
-    EDIT_DATE = "edit_date"
-    EDIT_TIME = "edit_time"
-    MAKE_ICS = "make_ics"
-    SAVE_CALENDAR = "save_calendar"
+    EDIT_DATE = "Поменять дату"
+    EDIT_TIME = "Поменять время"
+    MAKE_ICS = "Вернуть .ics"
+    SAVE_CALENDAR = "Сохранить в календарь"
