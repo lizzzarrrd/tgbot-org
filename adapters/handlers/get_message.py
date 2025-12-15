@@ -1,7 +1,7 @@
 from __future__ import annotations
 from aiogram import types
 from adapters.send_message import MessageSender
-from domain.all_keyboards import MainMenuKeyboard,ConfirmKeyboard
+from domain.all_keyboards import ConfirmKeyboard
 
 class MessageHandler:
     """

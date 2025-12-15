@@ -1,12 +1,5 @@
 from enum import StrEnum
 
-
-class MainMenuButton(StrEnum):
-    CREATE_EVENT = "Создать событие"
-    MY_EVENTS = "Мои события"
-    MY_GROUPS = "Мои группы"
-
-
 class ConfirmButton(StrEnum):
     YES = "Да"
     NO = "Нет"

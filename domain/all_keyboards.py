@@ -1,26 +1,6 @@
-from aiogram.types import (
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-    ReplyKeyboardMarkup,
-    KeyboardButton,
-)
 
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from domain.all_buttons_types import MainMenuButton, ConfirmButton, EditEventButton
-
-
-class MainMenuKeyboard:
-    @staticmethod
-    def build() -> ReplyKeyboardMarkup:
-        return ReplyKeyboardMarkup(
-            keyboard=[
-                [KeyboardButton(text=MainMenuButton.CREATE_EVENT.value)],
-                [KeyboardButton(text=MainMenuButton.MY_EVENTS.value)],
-                [KeyboardButton(text=MainMenuButton.MY_GROUPS.value)],
-            ],
-            resize_keyboard=True,
-        )
+from domain.all_buttons_types import ConfirmButton, EditEventButton
 
 class ConfirmKeyboard:
     @staticmethod
