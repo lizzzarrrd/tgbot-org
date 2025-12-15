@@ -5,8 +5,6 @@ from aiogram.filters import CommandStart
 from adapters import MessageHandler, MessageSender, StartHandler, ConfirmHandler
 from domain.all_buttons_types import ConfirmButton
 
-#импротируем нужные библиотеки потом из инита лучше
-
 API_TOKEN = '8305223003:AAGGk5NoBE2l01OdjA6pFFXUEXleqZLviFU'
 
 bot = Bot(token=API_TOKEN)
