@@ -1,8 +1,7 @@
 from __future__ import annotations
 from aiogram import types
 from adapters.send_message import MessageSender
-
-
+from domain.all_keyboards import MainMenuKeyboard,ConfirmKeyboard
 
 class MessageHandler:
     """
@@ -12,11 +11,7 @@ class MessageHandler:
     def __init__(self, sender: MessageSender):
         self.sender = sender
 
-    async def handle(self, message: types.Message) -> None:
-        from domain.all_keyboards import (
-            MainMenuKeyboard,
-            ConfirmKeyboard,
-        )
+    async def (self, message: types.Message) -> None:
 
         await message.answer(
             "Главное меню",

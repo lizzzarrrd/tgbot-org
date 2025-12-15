@@ -2,9 +2,7 @@ from aiogram import Router, Bot, Dispatcher
 from aiogram import types
 from aiogram.filters import CommandStart
 
-from adapters.handlers.start import StartHandler
-from adapters.handlers.get_message import MessageHandler
-from adapters.send_message import MessageSender
+from adapters.__init__ import MessageHandler, MessageSender, StartHandler
 
 #импротируем нужные библиотеки потом из инита лучше
 

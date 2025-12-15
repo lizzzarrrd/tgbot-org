@@ -6,7 +6,7 @@ from aiogram.types import (
 )
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from domain.all_buttons_types import (MainMenuButton)
+from domain.all_buttons_types import MainMenuButton, ConfirmButton, EditEventButton
 
 
 class MainMenuKeyboard:
