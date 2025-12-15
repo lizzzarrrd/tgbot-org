@@ -13,10 +13,9 @@ class MessageHandler:
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
-        from domain.models.keyboards import (
+        from domain.all_keyboards import (
             MainMenuKeyboard,
             ConfirmKeyboard,
-            EditEventKeyboard,
         )
 
         await message.answer(
