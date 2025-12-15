@@ -4,6 +4,7 @@ from aiogram.types import (
     ReplyKeyboardMarkup,
     KeyboardButton,
 )
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from domain.all_buttons_types import MainMenuButton, ConfirmButton, EditEventButton
@@ -21,56 +22,49 @@ class MainMenuKeyboard:
             resize_keyboard=True,
         )
 
-
 class ConfirmKeyboard:
     @staticmethod
-    def build() -> InlineKeyboardMarkup:
-        kb = InlineKeyboardMarkup()
+    def build():
+        builder = InlineKeyboardBuilder()
 
-        kb.add(
-            InlineKeyboardButton(
-                text="Да",
-                callback_data=ConfirmButton.YES.value,
-            )
+        builder.button(
+            text="Да",
+            callback_data=ConfirmButton.YES.value,
         )
-        kb.add(
-            InlineKeyboardButton(
-                text="Нет",
-                callback_data=ConfirmButton.NO.value,
-            )
+        builder.button(
+            text="Нет",
+            callback_data=ConfirmButton.NO.value,
         )
 
-        return kb
+        builder.adjust(2)
+        return builder.as_markup()
+
+
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+from domain.all_buttons_types import EditEventButton
 
 
 class EditEventKeyboard:
     @staticmethod
-    def build() -> InlineKeyboardMarkup:
-        kb = InlineKeyboardMarkup()
+    def build():
+        builder = InlineKeyboardBuilder()
 
-        kb.add(
-            InlineKeyboardButton(
-                text="Изменить дату",
-                callback_data=EditEventButton.EDIT_DATE.value,
-            )
+        builder.button(
+            text="Изменить дату",
+            callback_data=EditEventButton.EDIT_DATE.value,
         )
-        kb.add(
-            InlineKeyboardButton(
-                text="Изменить время",
-                callback_data=EditEventButton.EDIT_TIME.value,
-            )
+        builder.button(
+            text="Изменить время",
+            callback_data=EditEventButton.EDIT_TIME.value,
         )
-        kb.add(
-            InlineKeyboardButton(
-                text="Получить .ics",
-                callback_data=EditEventButton.MAKE_ICS.value,
-            )
+        builder.button(
+            text="Получить .ics",
+            callback_data=EditEventButton.MAKE_ICS.value,
         )
-        kb.add(
-            InlineKeyboardButton(
-                text="Добавить в календарь",
-                callback_data=EditEventButton.SAVE_CALENDAR.value,
-            )
+        builder.button(
+            text="Добавить в календарь",
+            callback_data=EditEventButton.SAVE_CALENDAR.value,
         )
 
-        return kb
+        builder.adjust(1)
+        return builder.as_markup()
