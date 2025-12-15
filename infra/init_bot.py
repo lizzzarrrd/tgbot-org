@@ -3,7 +3,7 @@ from aiogram import types
 from aiogram.filters import CommandStart
 
 from adapters.handlers.start import StartHandler
-from adapters.handlers.message import MessageHandler
+from adapters.handlers.get_message import MessageHandler
 from adapters.send_message import MessageSender
 
 #импротируем нужные библиотеки потом из инита лучше
@@ -22,11 +22,9 @@ message_handler = MessageHandler(sender)
     
 @router.message(CommandStart())
 async def start_command(message: types.Message):
-    sender = MessageSender(bot)
     await StartHandler(sender=sender).handle(message)
 
 
 @router.message()
 async def all_messages(message: types.Message):
-    sender = MessageSender(bot)
     await StartHandler(sender=sender).handle(message)
