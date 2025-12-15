@@ -4,8 +4,8 @@ from aiogram.types import (
     ReplyKeyboardMarkup,
     KeyboardButton,
 )
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from domain.all_buttons_types import MainMenuButton, ConfirmButton, EditEventButton
 
@@ -38,11 +38,6 @@ class ConfirmKeyboard:
 
         builder.adjust(2)
         return builder.as_markup()
-
-
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-from domain.all_buttons_types import EditEventButton
-
 
 class EditEventKeyboard:
     @staticmethod
