@@ -13,5 +13,20 @@ class MessageHandler:
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
-        # need some logic with parsing message
-        pass
+        from domain.models.keyboards import (
+            MainMenuKeyboard,
+            ConfirmKeyboard,
+            EditEventKeyboard,
+        )
+
+        await message.answer(
+            "Главное меню",
+            reply_markup=MainMenuKeyboard.build(),
+        )
+
+        await message.answer(
+            "Подтвердить?",
+            reply_markup=ConfirmKeyboard.build(),
+        )
+
+
