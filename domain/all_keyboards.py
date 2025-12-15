@@ -5,16 +5,21 @@ from aiogram.types import (
     KeyboardButton,
 )
 
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from domain.all_buttons_types import (MainMenuButton)
+
 
 class MainMenuKeyboard:
     @staticmethod
     def build() -> ReplyKeyboardMarkup:
-        kb = ReplyKeyboardMarkup(resize_keyboard=True)
-
-        for button in MainMenuButton:
-            kb.add(KeyboardButton(text=button.value))
-
-        return kb
+        return ReplyKeyboardMarkup(
+            keyboard=[
+                [KeyboardButton(text=MainMenuButton.CREATE_EVENT.value)],
+                [KeyboardButton(text=MainMenuButton.MY_EVENTS.value)],
+                [KeyboardButton(text=MainMenuButton.MY_GROUPS.value)],
+            ],
+            resize_keyboard=True,
+        )
 
 
 class ConfirmKeyboard:
