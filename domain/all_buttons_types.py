@@ -6,8 +6,13 @@ class ConfirmButton(StrEnum):
     REJECT = "Отменить регистрацию события"
 
 
+class TransformEventButton(StrEnum):
+    TRANSORM_DATE = "Поменять дату"
+    TRANSORM_TIME = "Поменять время"
+    TRANSORM_NAME = "Поменять название"
+    TRANSORM_DESCRIPTION = "Поменять описание"
+
 class EditEventButton(StrEnum):
-    EDIT_DATE = "Поменять дату"
-    EDIT_TIME = "Поменять время"
-    MAKE_ICS = "Вернуть .ics"
-    SAVE_CALENDAR = "Сохранить в календарь"
+    EDIT_TO_YANDEX = "Добавить в Яндекс-календарь"
+    EDIT_TO_GOOGLE = "Добавить в Google-календарь"
+    MAKE_ICS = "Вернуть ICS-файл"
