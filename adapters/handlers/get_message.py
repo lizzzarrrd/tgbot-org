@@ -2,6 +2,7 @@ from __future__ import annotations
 from aiogram import types
 from adapters.send_message import MessageSender
 from domain.all_keyboards import ConfirmKeyboard
+from domain.all_buttons_types import MessagesToUser
 
 class MessageHandler:
     """
@@ -15,7 +16,7 @@ class MessageHandler:
 
         await self.sender.send_text(
             message,
-            "Подтвердить?",
+            MessagesToUser.CONFIRMBUTTON_MASSAGE,
             reply_markup=ConfirmKeyboard.build(),
         )
 

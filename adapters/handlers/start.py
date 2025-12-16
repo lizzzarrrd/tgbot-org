@@ -1,7 +1,7 @@
 from __future__ import annotations
 from aiogram import types
 from adapters.send_message import MessageSender
-
+from domain.all_buttons_types import MessagesToUser
 
 class StartHandler:
     """
@@ -13,5 +13,5 @@ class StartHandler:
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
-        await self.sender.send_text(message, text="Привет! Напииши сообщение для создания события.")
+        await self.sender.send_text(message, text=MessagesToUser.HI_MASSAGE)
         # need some logic with saving in dabase etc.
