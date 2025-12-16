@@ -19,7 +19,7 @@ class MessageHandler:
 
         await self.sender.send_text(
             message,
-            f"{MessagesToUser.CONFIRMBUTTON_MASSAGE} {parsed_event}",
+            f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {parsed_event}",
             reply_markup=ConfirmKeyboard.build(),
         )
 

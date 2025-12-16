@@ -2,7 +2,7 @@ from aiogram.filters import CommandStart
 from aiogram import F, types
 
 from adapters import MessageHandler, MessageSender, StartHandler, ConfirmHandler
-from domain.all_buttons_types import ConfirmButton
+from domain.all_buttons_types import ConfirmButton, EditEventButton
 
 from infra.init_bot import bot, router
 
@@ -19,6 +19,6 @@ async def start_command(message: types.Message):
 async def all_messages(message: types.Message):
     await message_handler.handle(message)
 
-@router.callback_query(F.data.in_({ConfirmButton.YES, ConfirmButton.NO, ConfirmButton.REJECT}))
+@router.callback_query(F.data.in_({ConfirmButton.YES, ConfirmButton.NO, ConfirmButton.REJECT, EditEventButton.EDIT_TO_YANDEX, EditEventButton.EDIT_TO_GOOGLE, EditEventButton.MAKE_ICS}))
 async def confirm_callbacks(callback: types.CallbackQuery):
     await confirm_handler.handle(callback)

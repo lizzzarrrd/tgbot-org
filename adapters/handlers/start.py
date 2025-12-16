@@ -13,5 +13,5 @@ class StartHandler:
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
-        await self.sender.send_text(message, text=MessagesToUser.HI_MASSAGE)
+        await self.sender.send_text(message, text=MessagesToUser.HI_MESSAGE)
         # need some logic with saving in dabase etc.
