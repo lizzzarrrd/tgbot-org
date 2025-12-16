@@ -19,6 +19,6 @@ async def start_command(message: types.Message):
 async def all_messages(message: types.Message):
     await message_handler.handle(message)
 
-@router.callback_query(F.data.in_({ConfirmButton.YES, ConfirmButton.NO}))
+@router.callback_query(F.data.in_({ConfirmButton.YES, ConfirmButton.NO, ConfirmButton.REJECT}))
 async def confirm_callbacks(callback: types.CallbackQuery):
     await confirm_handler.handle(callback)
