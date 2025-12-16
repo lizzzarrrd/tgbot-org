@@ -18,9 +18,12 @@ class EditEventButton(StrEnum):
 
 
 class MessagesToUser(StrEnum):
-    HI_MASSAGE = "Привет! Напиши свои данные для регистрации."
-    CONFIRMBUTTON_MASSAGE = f"Добавить событие в календарь:"
+    HI_MESSAGE = "Привет! Напиши свои данные для регистрации."
+    CONFIRM_BUTTON_MESSAGE = f"Добавить событие в календарь:"
     WHERE_ADD_EVENT = "Событие подтверждено. В какой календарь Вы хотите сохранить событие?"
     WHAT_CHANGE = "Что Вы хотите изменить?"
     REJECT = "Событие отменено"
+    ADDED_TO_YANDEX = "Событие добавлено в Яндекс-календарь."
+    ADDED_TO_GOOGLE = "Событие добавлено в Google-календарь."
+    TAKE_ICS = "Ваш ICS-файл с событием"
     
