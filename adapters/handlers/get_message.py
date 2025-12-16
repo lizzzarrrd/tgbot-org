@@ -13,10 +13,13 @@ class MessageHandler:
         self.sender = sender
 
     async def handle(self, message: types.Message) -> None:
+        
+        #call parsed func and get:
+        parsed_event = "PARSED FROM EGOR"
 
         await self.sender.send_text(
             message,
-            MessagesToUser.CONFIRMBUTTON_MASSAGE,
+            f"{MessagesToUser.CONFIRMBUTTON_MASSAGE} {parsed_event}",
             reply_markup=ConfirmKeyboard.build(),
         )
 
