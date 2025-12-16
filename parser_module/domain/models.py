@@ -3,14 +3,6 @@ from datetime import datetime
 from typing import Optional
 
 
-class NoEventFound(Exception):
-    pass
-
-
-class EventParseError(Exception):
-    pass
-
-
 @dataclass()
 class Event:
     date_start: datetime

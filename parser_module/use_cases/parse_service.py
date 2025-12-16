@@ -55,9 +55,9 @@ def _parse_llm_response(text: str) -> Dict[str, Any]:
         if isinstance(obj, dict):
             return obj
     except Exception as e:
-        raise EventParseError(f"Cannot parse LLM output: {e}") from e
+        pass
 
-    raise EventParseError("LLM output is not a dict/JSON object")
+    pass
 
 
 class ParseService:
@@ -84,10 +84,7 @@ class ParseService:
             description = str(payload.get("description", "")).strip()
             location = str(payload.get("location", "")).strip()
         except Exception as e:
-            raise EventParseError(f"Bad event fields: {e}") from e
-
-        if not name or not isinstance(date_start, datetime):
-            raise EventParseError("Missing required fields: date_start/name")
+            pass
 
         return Event(
             date_start=date_start,
