@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import ast
 import json
 from dataclasses import dataclass
@@ -29,7 +27,7 @@ def _parse_dt(s: str) -> datetime:
     return datetime.strptime(s.strip(), "%Y-%m-%d %H:%M")
 
 
-def _loads_llm_payload(text: str) -> Dict[str, Any]:
+def _parse_llm_response(text: str) -> Dict[str, Any]:
     t = text.strip()
 
     if t.lower() == "no mero":
@@ -51,7 +49,7 @@ def _loads_llm_payload(text: str) -> Dict[str, Any]:
     except json.JSONDecodeError:
         pass
 
-    # 2) Фоллбек: если модель всё же вернула python-словарь
+    # 2) если модель всё же вернула python-словарь
     try:
         obj = ast.literal_eval(t)
         if isinstance(obj, dict):
@@ -66,8 +64,8 @@ class ParseService:
     def __init__(self, llm: LlmInterface) -> None:
         self.llm = llm
 
-    def parse_event(self, message_from_user: str, *, now: Optional[datetime] = None) -> Event:
-        now = now or datetime.now()
+    def parse_event(self, message_from_user: str) -> Event:
+        now = datetime.now()
         cur_date = now.strftime("%Y-%m-%d")
 
         prompt = (
@@ -77,7 +75,7 @@ class ParseService:
         )
         answer = self.llm.complete(prompt)
 
-        payload = _loads_llm_payload(answer)
+        payload = _parse_llm_response(answer)
 
         try:
             date_start = _parse_dt(payload["date_start"])

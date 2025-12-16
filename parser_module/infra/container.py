@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 
 from parser_module.adapters.llm_adapter import YandexGptAdapter

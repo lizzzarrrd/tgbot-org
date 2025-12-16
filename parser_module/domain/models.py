@@ -1,20 +1,17 @@
-# parser_module/domain/models.py
-from __future__ import annotations
-
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
 
 class NoEventFound(Exception):
-    """Сигнал: в тексте нет мероприятия (аналог 'no mero')."""
+    pass
 
 
 class EventParseError(Exception):
-    """Сигнал: модель ответила, но не удалось распарсить/валидировать."""
+    pass
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass()
 class Event:
     date_start: datetime
     date_end: Optional[datetime]

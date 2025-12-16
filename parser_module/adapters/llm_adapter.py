@@ -1,4 +1,3 @@
-# parser_module/adapters/llm_adapter.py
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -14,7 +13,7 @@ class YandexGptAdapter:
         self.completion_url: str = (
             "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
         )
-        
+
     def complete(self, prompt: str) -> str:
         payload: Dict[str, Any] = {
             "modelUri": self.model_uri,

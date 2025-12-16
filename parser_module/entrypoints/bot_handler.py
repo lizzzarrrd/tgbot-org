@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from dataclasses import asdict
 
 from parser_module.infra.container import Container
@@ -15,7 +13,6 @@ def handle_message(message_text: str) -> dict:
     собираются здесь, на основе переменных окружения.
     """
     settings = Settings()
-    settings.validate()
 
     container = Container()
     container.settings = settings
