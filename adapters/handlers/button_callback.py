@@ -7,7 +7,7 @@ class ConfirmHandler:
     def __init__(self, sender: MessageSender):
         self.sender = sender
 
-    async def handle(self, callback: types.CallbackQuery) -> None:
+    async def handle_for_confirm(self, callback: types.CallbackQuery) -> None:
         pressed_button: ConfirmButton = ConfirmButton(callback.data)
         if pressed_button == ConfirmButton.YES:
             await self.sender.send_text(callback.message, MessagesToUser.WHERE_ADD_EVENT, reply_markup=EditEventKeyboard.build())
@@ -16,6 +16,7 @@ class ConfirmHandler:
         elif pressed_button == ConfirmButton.REJECT:
             await self.sender.send_text(callback.message, MessagesToUser.REJECT)
 
+    async def handle_for_calendar_addiction(self, callback: types.CallbackQuery) -> None:
         pressed_button: EditEventButton = EditEventButton(callback.data)
         if pressed_button == EditEventButton.EDIT_TO_YANDEX:
             #Polina_s_module_for_yandex_calendar()

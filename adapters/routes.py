@@ -19,6 +19,10 @@ async def start_command(message: types.Message):
 async def all_messages(message: types.Message):
     await message_handler.handle(message)
 
-@router.callback_query(F.data.in_({ConfirmButton.YES, ConfirmButton.NO, ConfirmButton.REJECT, EditEventButton.EDIT_TO_YANDEX, EditEventButton.EDIT_TO_GOOGLE, EditEventButton.MAKE_ICS}))
+@router.callback_query(F.data.in_({ConfirmButton.YES, ConfirmButton.NO, ConfirmButton.REJECT}))
 async def confirm_callbacks(callback: types.CallbackQuery):
-    await confirm_handler.handle(callback)
+    await confirm_handler.handle_for_confirm(callback)
+
+@router.callback_query(F.data.in_({EditEventButton.EDIT_TO_YANDEX, EditEventButton.EDIT_TO_GOOGLE, EditEventButton.MAKE_ICS}))
+async def calendar_addiction_callbacks(callback: types.CallbackQuery):
+    await confirm_handler.handle_for_calendar_addiction(callback)
