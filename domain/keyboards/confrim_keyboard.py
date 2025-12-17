@@ -6,7 +6,7 @@ from ..buttons import ConfirmButton
 class ConfirmKeyboard:
     @staticmethod
     def build():
-        builder = InlineKeyboardBuilder()
+        builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
 
         builder.button(
             text=ConfirmButton.YES.value,

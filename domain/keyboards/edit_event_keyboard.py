@@ -5,7 +5,7 @@ from ..buttons import EditEventButton
 class EditEventKeyboard:
     @staticmethod
     def build():
-        builder = InlineKeyboardBuilder()
+        builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
 
         builder.button(
             text=EditEventButton.EDIT_TO_YANDEX.value,

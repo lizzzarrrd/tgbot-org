@@ -10,16 +10,15 @@ from .buttons import TransformEventButton
 from .buttons import MessagesToUser
 
 from .state import State
-
 from .user import User
 
-__all__ = ["ConfirmKeyboard",
-            "EditEventKeyboard",
-            "TransformEventKeyboard",
-            "ConfirmButton",
-            "EditEventButton",
-            "TransformEventButton",
-            "MessagesToUser",
-            "State",
-            "User"
-        ]
+__all__: tuple[str, ...] = ["ConfirmKeyboard",
+                            "EditEventKeyboard",
+                            "TransformEventKeyboard",
+                            "ConfirmButton",
+                            "EditEventButton",
+                            "TransformEventButton",
+                            "MessagesToUser",
+                            "State",
+                            "User"
+                        ]

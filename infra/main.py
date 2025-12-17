@@ -5,7 +5,7 @@ import adapters.routes # импорт не удалять, он на самом 
 
 logging.basicConfig(level=logging.INFO)
 
-async def main():
+async def main() -> None:
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

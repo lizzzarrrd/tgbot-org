@@ -2,11 +2,11 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from ..buttons import TransformEventButton
 
+
 class TransformEventKeyboard:
     @staticmethod
     def build():
-        builder = InlineKeyboardBuilder()
-
+        builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
         builder.button(
             text=TransformEventButton.TRANSORM_DATE.value,
             callback_data=TransformEventButton.TRANSORM_DATE.value,

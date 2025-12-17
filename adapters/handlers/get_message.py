@@ -9,8 +9,8 @@ class MessageHandler:
     Основная ручка: получает любое текстовое сообщение от пользователя.
     """
 
-    def __init__(self, sender: MessageSender):
-        self.sender = sender
+    def __init__(self, sender: MessageSender) -> None:
+        self.sender: MessageSender = sender
 
     async def handle(self, message: types.Message) -> None:
         

@@ -1,5 +1,7 @@
+from dataclasses import dataclass
 
+@dataclass
 class User:
-    registration_state : str
-    message_state : str
-    change_message_state : str
+    registration_state: str
+    message_state: str
+    change_message_state: str

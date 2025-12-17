@@ -1,11 +1,12 @@
 from aiogram import types
 from ..send_message import MessageSender
-from domain import ConfirmButton, MessagesToUser, EditEventButton
-from domain import EditEventKeyboard, TransformEventKeyboard
+from domain import (ConfirmButton, MessagesToUser,
+                    EditEventButton, EditEventKeyboard, TransformEventKeyboard)
+
 
 class ConfirmHandler:
-    def __init__(self, sender: MessageSender):
-        self.sender = sender
+    def __init__(self, sender: MessageSender) -> None:
+        self.sender: MessageSender = sender
 
     async def handle_for_confirm(self, callback: types.CallbackQuery) -> None:
         pressed_button: ConfirmButton = ConfirmButton(callback.data)
