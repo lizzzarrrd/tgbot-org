@@ -36,5 +36,6 @@ class MessageSender:
         Отправка файла пользователю,
         используется другая функция answer_document.
         """
-        input_file: InputFile = InputFile(file_path)
-        await message.answer_document(input_file, caption=caption)
+        await message.answer("Погоди, пока не сработает, заглушка", reply_markup=None)
+        # input_file: InputFile = InputFile(file_path)
+        # await message.answer_document(input_file, caption=caption)

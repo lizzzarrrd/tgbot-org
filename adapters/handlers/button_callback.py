@@ -43,8 +43,8 @@ class AddictionToCalendarHandler:
                                         MessagesToUser.ADDED_TO_GOOGLE)
         elif pressed_button == EditEventButton.MAKE_ICS:
             # file_path = Polina_s_module_for_making_ics_calendar(parsed_event from Egor)
-            await self.sender.send_file(callback.message, file_path,
-                                        MessagesToUser.TAKE_ICS)
+            await self.sender.send_file(callback.message, file_path="",
+                                        caption=MessagesToUser.TAKE_ICS)
         await callback.answer()
 
 
@@ -57,11 +57,19 @@ class ChangeEventHandler:
         pressed_button: TransformEventButton = TransformEventButton(
             callback.data)
         if pressed_button == TransformEventButton.TRANSORM_DATE:
+            await self.sender.send_text(callback.message,
+                                        TransformEventButton.TRANSORM_DATE_PUSHED)
             await state.set_state(MessageProcessingStates.EDITING_DATE)
         elif pressed_button == TransformEventButton.TRANSORM_TIME:
+            await self.sender.send_text(callback.message,
+                                        TransformEventButton.TRANSORM_TIME_PUSHED)
             await state.set_state(MessageProcessingStates.EDITING_TIME)
         elif pressed_button == TransformEventButton.TRANSORM_NAME:
+            await self.sender.send_text(callback.message,
+                                        TransformEventButton.TRANSORM_NAME_PUSHED)
             await state.set_state(MessageProcessingStates.EDITING_NAME)
         elif pressed_button == TransformEventButton.TRANSORM_DESCRIPTION:
+            await self.sender.send_text(callback.message,
+                                        TransformEventButton.TRANSORM_DESCRIPTION_PUSHED)
             await state.set_state(MessageProcessingStates.EDITING_DESCRIPTION)
         await callback.answer()

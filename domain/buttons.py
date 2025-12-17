@@ -12,6 +12,12 @@ class TransformEventButton(StrEnum):
     TRANSORM_TIME: str = "Поменять время"
     TRANSORM_NAME: str = "Поменять название"
     TRANSORM_DESCRIPTION: str = "Поменять описание"
+    TRANSORM_DATE_PUSHED: str = "Пожалуйста, введите корректную дату. Пример: 2023-09-15"
+    TRANSORM_TIME_PUSHED: str = "Пожалуйста, введите корректное время. Пример: 14:00"
+    TRANSORM_NAME_PUSHED: str = "Пожалуйста, введите корректное название события."
+    TRANSORM_DESCRIPTION_PUSHED: str = "Пожалуйста, введите корректное описание события."
+
+
 
 
 class EditEventButton(StrEnum):
@@ -21,8 +27,8 @@ class EditEventButton(StrEnum):
 
 
 class MessagesToUser(StrEnum):
-    HI_MESSAGE: str = "Привет! Напиши свои данные для регистрации."
-    CONFIRM_BUTTON_MESSAGE: str = "Добавить событие в календарь:"
+    HI_MESSAGE: str = "Привет! Напишите, пожалуйста, Ваши данные для регистрации."
+    CONFIRM_BUTTON_MESSAGE: str = "Желаете добавить следующее событие в календарь?"
     WHERE_ADD_EVENT: str = (
         "Событие подтверждено. В какой календарь Вы хотите сохранить событие?"
     )
