@@ -20,14 +20,14 @@ class ConfirmHandler:
     async def handle_for_calendar_addiction(self, callback: types.CallbackQuery) -> None:
         pressed_button: EditEventButton = EditEventButton(callback.data)
         if pressed_button == EditEventButton.EDIT_TO_YANDEX:
-            #Polina_s_module_for_yandex_calendar()
+            #Polina_s_module_for_yandex_calendar(parsed_event from Egor)
             await self.sender.send_text(callback.message,MessagesToUser.ADDED_TO_YANDEX)
         elif pressed_button == EditEventButton.EDIT_TO_GOOGLE:
-            #Polina_s_module_for_google_calendar()
+            #Polina_s_module_for_google_calendar(parsed_event from Egor)
             await self.sender.send_text(callback.message, MessagesToUser.ADDED_TO_GOOGLE)
         elif pressed_button == EditEventButton.MAKE_ICS:
-            # file = Polina_s_module_for_making_ics_calendar()
-            await self.sender.send_text(callback.message, MessagesToUser.TAKE_ICS)
+            # file_path = Polina_s_module_for_making_ics_calendar(parsed_event from Egor)
+            await self.sender.send_file(callback.message, file_path, MessagesToUser.TAKE_ICS)
         await callback.answer()
 
 

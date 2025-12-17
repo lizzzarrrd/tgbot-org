@@ -21,4 +21,20 @@ class MessageSender:
             text: str,
             reply_markup: Optional[Markup] = None,
     ) -> None:
+        """
+        Отправка просто сообщения пользователю.
+        """
         await message.answer(text, reply_markup=reply_markup)
+
+    async def send_file(
+            self,
+            message: Message,
+            file_path: str,
+            caption: Optional[str] = None,
+    ) -> None:
+        """
+        Отправка файла пользователю,
+        используется другая функция answer_document.
+        """
+        input_file: InputFile = InputFile(file_path)
+        await message.answer_document(input_file, caption=caption)
