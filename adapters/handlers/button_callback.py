@@ -1,7 +1,7 @@
 from aiogram import types
 from ..send_message import MessageSender
 from domain import (ConfirmButton, MessagesToUser,
-                    EditEventButton, EditEventKeyboard, TransformEventKeyboard)
+                    EditEventButton, EditEventKeyboard, TransformEventButton, TransformEventKeyboard)
 
 
 class ConfirmHandler:
@@ -28,6 +28,29 @@ class ConfirmHandler:
         elif pressed_button == EditEventButton.MAKE_ICS:
             # file_path = Polina_s_module_for_making_ics_calendar(parsed_event from Egor)
             await self.sender.send_file(callback.message, file_path, MessagesToUser.TAKE_ICS)
+        await callback.answer()
+
+    async def handle_for_event_changing_info(self, callback: types.CallbackQuery) -> None:
+        pressed_button: TransformEventButton = TransformEventButton(callback.data)
+        if pressed_button == TransformEventButton.TRANSORM_DATE:
+            #отправить в парсер заново переделать поле события и получить новое событие
+            new_event_parsed_event = "PARSED FROM EGOR CHANGED DATE"
+            await self.sender.send_text(callback.message, f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+        elif pressed_button == TransformEventButton.TRANSORM_TIME:
+            # отправить в парсер заново переделать поле события и получить новое событие
+            new_event_parsed_event = "PARSED FROM EGOR CHANGED TIME"
+            await self.sender.send_text(callback.message,
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+        elif pressed_button == TransformEventButton.TRANSORM_NAME:
+            # отправить в парсер заново переделать поле события и получить новое событие
+            new_event_parsed_event = "PARSED FROM EGOR CHANGED NAME"
+            await self.sender.send_text(callback.message,
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+        elif pressed_button == TransformEventButton.TRANSORM_DESCRIPTION:
+            # отправить в парсер заново переделать поле события и получить новое событие
+            new_event_parsed_event = "PARSED FROM EGOR CHANGED DESCRIPTION"
+            await self.sender.send_text(callback.message,
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
         await callback.answer()
 
 

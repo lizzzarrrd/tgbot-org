@@ -2,7 +2,7 @@ from aiogram import F, types
 from aiogram.filters import CommandStart
 
 from adapters import (MessageHandler, MessageSender, StartHandler,ConfirmHandler)
-from domain import ConfirmButton, EditEventButton
+from domain import ConfirmButton, EditEventButton, TransformEventButton
 from infra.init_bot import bot, router
 
 
@@ -34,6 +34,7 @@ async def all_messages(message: types.Message) -> None:
 async def confirm_callbacks(callback: types.CallbackQuery) -> None:
     await confirm_handler.handle_for_confirm(callback)
 
+
 @router.callback_query(
     F.data.in_(
         {
@@ -47,3 +48,19 @@ async def calendar_addiction_callbacks(
     callback: types.CallbackQuery,
 ) -> None:
     await confirm_handler.handle_for_calendar_addiction(callback)
+
+
+@router.callback_query(
+    F.data.in_(
+        {
+            TransformEventButton.TRANSORM_DATE,
+            TransformEventButton.TRANSORM_TIME,
+            TransformEventButton.TRANSORM_NAME,
+            TransformEventButton.TRANSORM_DESCRIPTION,
+        }
+    )
+)
+async def calendar_addiction_callbacks(
+    callback: types.CallbackQuery,
+) -> None:
+    await confirm_handler.handle_for_event_changing_info(callback)
