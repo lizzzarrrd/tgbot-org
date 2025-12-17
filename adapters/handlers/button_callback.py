@@ -1,8 +1,11 @@
 from aiogram import types
+from aiogram.fsm.context import FSMContext
+
 from ..send_message import MessageSender
 from domain import (ConfirmButton, MessagesToUser,
                     EditEventButton, EditEventKeyboard, TransformEventButton, TransformEventKeyboard)
 
+from domain.state import MessageProcessingStates
 
 class ConfirmHandler:
     def __init__(self, sender: MessageSender) -> None:
@@ -12,8 +15,10 @@ class ConfirmHandler:
         pressed_button: ConfirmButton = ConfirmButton(callback.data)
         if pressed_button == ConfirmButton.YES:
             await self.sender.send_text(callback.message, MessagesToUser.WHERE_ADD_EVENT, reply_markup=EditEventKeyboard.build())
+
         elif pressed_button == ConfirmButton.NO:
             await self.sender.send_text(callback.message, MessagesToUser.WHAT_CHANGE, reply_markup=TransformEventKeyboard.build())
+    
         elif pressed_button == ConfirmButton.REJECT:
             await self.sender.send_text(callback.message, MessagesToUser.REJECT)
 
@@ -48,27 +53,15 @@ class ChangeEventHandler:
         self.sender: MessageSender = sender
 
     async def handle_for_event_changing_info(self,
-                                             callback: types.CallbackQuery) -> None:
+                                             callback: types.CallbackQuery, state: FSMContext) -> None:
         pressed_button: TransformEventButton = TransformEventButton(
             callback.data)
         if pressed_button == TransformEventButton.TRANSORM_DATE:
-            # отправить в парсер заново переделать поле события и получить новое событие
-            new_event_parsed_event = "PARSED FROM EGOR CHANGED DATE"
-            await self.sender.send_text(callback.message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+            await state.set_state(MessageProcessingStates.EDITING_DATE)
         elif pressed_button == TransformEventButton.TRANSORM_TIME:
-            # отправить в парсер заново переделать поле события и получить новое событие
-            new_event_parsed_event = "PARSED FROM EGOR CHANGED TIME"
-            await self.sender.send_text(callback.message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+            await state.set_state(MessageProcessingStates.EDITING_TIME)
         elif pressed_button == TransformEventButton.TRANSORM_NAME:
-            # отправить в парсер заново переделать поле события и получить новое событие
-            new_event_parsed_event = "PARSED FROM EGOR CHANGED NAME"
-            await self.sender.send_text(callback.message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+            await state.set_state(MessageProcessingStates.EDITING_NAME)
         elif pressed_button == TransformEventButton.TRANSORM_DESCRIPTION:
-            # отправить в парсер заново переделать поле события и получить новое событие
-            new_event_parsed_event = "PARSED FROM EGOR CHANGED DESCRIPTION"
-            await self.sender.send_text(callback.message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}")
+            await state.set_state(MessageProcessingStates.EDITING_DESCRIPTION)
         await callback.answer()

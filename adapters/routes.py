@@ -1,5 +1,6 @@
 from aiogram import F, types
 from aiogram.filters import CommandStart
+from aiogram.fsm.context import FSMContext
 
 from adapters import (MessageHandler, MessageSender, StartHandler, ConfirmHandler, ChangeEventHandler, AddictionToCalendarHandler)
 from domain import ConfirmButton, EditEventButton, TransformEventButton
@@ -20,8 +21,8 @@ async def start_command(message: types.Message) -> None:
 
 
 @router.message()
-async def all_messages(message: types.Message) -> None:
-    await message_handler.handle(message)
+async def all_messages(message: types.Message, state: FSMContext) -> None:
+    await message_handler.handle(message, state)
 
 
 @router.callback_query(
@@ -64,5 +65,6 @@ async def calendar_addiction_callbacks(
 )
 async def calendar_addiction_callbacks(
     callback: types.CallbackQuery,
+    state: FSMContext
 ) -> None:
-    await change_event_handler.handle_for_event_changing_info(callback)
+    await change_event_handler.handle_for_event_changing_info(callback, state)

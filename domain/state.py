@@ -1,14 +1,11 @@
-from enum import StrEnum
+from aiogram.fsm.state import StatesGroup, State
+
+class MessageProcessingStates(StatesGroup):
+    
+    EDITING_DATE = State()
+    EDITING_TIME = State()
+    EDITING_NAME = State()
+    EDITING_DESCRIPTION = State()
 
 
-class State(StrEnum):
-    IS_REGISTERED: str = "is_registered"
-    NOT_REGISTERED: str = "not_is_registered"
-
-    NEW_MESSAGE: str = "new_message"
-    OLD_MESSAGE: str = "old_message"
-
-    CHANGE_TIME: str = "change time"
-    CHANGE_DATE: str = "change date"
-    CHANGE_NAME: str = "change name"
-    CHANGE_EVENT: str = "change event"
+    

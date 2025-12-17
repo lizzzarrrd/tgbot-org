@@ -9,7 +9,7 @@ from .buttons import EditEventButton
 from .buttons import TransformEventButton
 from .buttons import MessagesToUser
 
-from .state import State
+from .state import MessageProcessingStates
 from .user import User
 
 __all__: tuple[str, ...] = ["ConfirmKeyboard",
@@ -19,6 +19,6 @@ __all__: tuple[str, ...] = ["ConfirmKeyboard",
                             "EditEventButton",
                             "TransformEventButton",
                             "MessagesToUser",
-                            "State",
+                            "MessageProcessingStates",
                             "User"
                         ]
