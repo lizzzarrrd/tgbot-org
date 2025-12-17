@@ -1,7 +1,7 @@
 from aiogram import types
-from adapters.send_message import MessageSender
-from domain.all_buttons_types import ConfirmButton, MessagesToUser, EditEventButton
-from domain.all_keyboards import EditEventKeyboard, TransformEventKeyboard
+from ..send_message import MessageSender
+from domain import ConfirmButton, MessagesToUser, EditEventButton
+from domain import EditEventKeyboard, TransformEventKeyboard
 
 class ConfirmHandler:
     def __init__(self, sender: MessageSender):

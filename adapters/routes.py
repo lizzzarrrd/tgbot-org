@@ -2,7 +2,7 @@ from aiogram.filters import CommandStart
 from aiogram import F, types
 
 from adapters import MessageHandler, MessageSender, StartHandler, ConfirmHandler
-from domain.all_buttons_types import ConfirmButton, EditEventButton
+from domain import ConfirmButton, EditEventButton
 
 from infra.init_bot import bot, router
 
