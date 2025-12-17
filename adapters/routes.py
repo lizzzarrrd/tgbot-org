@@ -1,7 +1,7 @@
 from aiogram import F, types
 from aiogram.filters import CommandStart
 
-from adapters import (MessageHandler, MessageSender, StartHandler,ConfirmHandler)
+from adapters import (MessageHandler, MessageSender, StartHandler, ConfirmHandler, ChangeEventHandler, AddictionToCalendarHandler)
 from domain import ConfirmButton, EditEventButton, TransformEventButton
 from infra.init_bot import bot, router
 
@@ -10,6 +10,8 @@ sender: MessageSender = MessageSender(bot)
 start_handler: StartHandler = StartHandler(sender)
 message_handler: MessageHandler = MessageHandler(sender)
 confirm_handler: ConfirmHandler = ConfirmHandler(sender)
+change_event_handler: ChangeEventHandler = ChangeEventHandler(sender)
+addiction_to_calendar_handler: AddictionToCalendarHandler = AddictionToCalendarHandler(sender)
 
 
 @router.message(CommandStart())
@@ -47,7 +49,7 @@ async def confirm_callbacks(callback: types.CallbackQuery) -> None:
 async def calendar_addiction_callbacks(
     callback: types.CallbackQuery,
 ) -> None:
-    await confirm_handler.handle_for_calendar_addiction(callback)
+    await addiction_to_calendar_handler.handle_for_calendar_addiction(callback)
 
 
 @router.callback_query(
@@ -63,4 +65,4 @@ async def calendar_addiction_callbacks(
 async def calendar_addiction_callbacks(
     callback: types.CallbackQuery,
 ) -> None:
-    await confirm_handler.handle_for_event_changing_info(callback)
+    await change_event_handler.handle_for_event_changing_info(callback)
