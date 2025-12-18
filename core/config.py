@@ -1,9 +1,8 @@
 from pydantic_settings import BaseSettings
 
-from pydantic_settings import BaseSettings
-
 class Settings(BaseSettings):
     db_path: str
+    api_token_bot: str
 
     @property
     def database_url(self) -> str:
