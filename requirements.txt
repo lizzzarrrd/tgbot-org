@@ -1,2 +1,6 @@
 aiogram
 python-dotenv
+sqlalchemy
+aiosqlite
+alembic
+pydantic-settings
