@@ -10,7 +10,7 @@ from .buttons import TransformEventButton
 from .buttons import MessagesToUser
 
 from .state import MessageProcessingStates
-from .user import User
+from domain.database.user import User
 
 __all__: tuple[str, ...] = ["ConfirmKeyboard",
                             "EditEventKeyboard",
