@@ -1,10 +1,16 @@
 import asyncio
 from infra.init_bot import bot, dp
 import logging
-import adapters.routes # импорт не удалять, он на самом деле используется 
+# import adapters.routes # импорт не удалять, он на самом деле используется 
 
 from .init_db import engine
 from domain.database.base import Base
+
+from adapters import InitRoute
+from .init_bot import router
+
+routes = InitRoute
+routes.setup_routes(router)
 
 logging.basicConfig(level=logging.INFO)
 
