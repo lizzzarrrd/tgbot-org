@@ -1,13 +1,12 @@
 *.xml
 .idea
 .venv
-.env
+.env.bot
+.env.parser
 test_llm.py
 test_editor.py
 .gitsecret/keys/random_seed
-!*.secret
-__pycache__/
-*.pyc
+!*.secret__pycache__/
 *.pyo
 *.pyd
 tg-bot/data

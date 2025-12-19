@@ -9,6 +9,6 @@ class Settings(BaseSettings):
     YANDEX_MODEL_URI: str = "gpt://b1gmvq70i52iqts7bg87/yandexgpt-lite"
 
     model_config = SettingsConfigDict(
-        env_file=os.path.join(BASE_DIR, ".env"),
+        env_file=os.path.join(BASE_DIR, ".env.parser"),
         env_file_encoding="utf-8"
     )
