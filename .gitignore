@@ -1,5 +1,6 @@
 *.xml
 .idea
+.venv
 .env
 test_llm.py
 test_editor.py
@@ -9,3 +10,4 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+tg-bot/data
