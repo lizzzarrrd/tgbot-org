@@ -6,6 +6,7 @@ from aiogram.types import Message, ReplyKeyboardMarkup, InlineKeyboardMarkup
 
 Markup = Union[ReplyKeyboardMarkup, InlineKeyboardMarkup]
 
+
 class MessageSender:
     """
     Унифицированный интерфейс отправки сообщений пользователю.
@@ -36,6 +37,6 @@ class MessageSender:
         Отправка файла пользователю,
         используется другая функция answer_document.
         """
-        await message.answer("Погоди, пока не сработает, заглушка", reply_markup=None)
+        await message.answer("Погоди, пока не работает, заглушка", reply_markup=None)
         # input_file: InputFile = InputFile(file_path)
         # await message.answer_document(input_file, caption=caption)

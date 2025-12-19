@@ -1,7 +1,7 @@
 
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from ..buttons import ConfirmButton
+from domain import ConfirmButton
 
 class ConfirmKeyboard:
     @staticmethod

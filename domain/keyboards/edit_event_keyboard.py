@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from ..buttons import EditEventButton
+from domain import EditEventButton
 
 class EditEventKeyboard:
     @staticmethod

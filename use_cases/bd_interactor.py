@@ -2,9 +2,11 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from domain import User
 
+
 class BdInteractor:
     def init(self, session: AsyncSession):
-        self.session = session
+        self.session: AsyncSession = session
+
 
     async def get_by_telegram_id(self, telegram_id: int) -> User | None:
         """Проверка, есть ли пользователь в БД"""

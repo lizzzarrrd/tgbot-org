@@ -3,7 +3,7 @@ from __future__ import annotations
 from aiogram import types
 from aiogram.fsm.context import FSMContext
 
-from ..send_message import MessageSender
+from adapters import MessageSender
 
 from domain import ConfirmKeyboard
 from domain import MessagesToUser

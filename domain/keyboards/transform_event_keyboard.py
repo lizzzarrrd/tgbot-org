@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from ..buttons import TransformEventButton
+from domain import TransformEventButton
 
 
 class TransformEventKeyboard:
