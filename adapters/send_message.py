@@ -1,6 +1,5 @@
 from __future__ import annotations
 from aiogram import Bot
-from aiogram.types import Message
 from typing import Optional, Union
 from aiogram.types import Message, ReplyKeyboardMarkup, InlineKeyboardMarkup
 

@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from aiogram import Router
-from aiogram.fsm.context import FSMContext
 
 
 class BaseRoute(ABC):
