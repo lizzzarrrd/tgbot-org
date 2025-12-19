@@ -1,8 +1,5 @@
 from __future__ import annotations
-
-from dataclasses import dataclass
-from typing import Any, Dict, Optional
-
+from typing import Any, Dict
 import requests
 
 class YandexGptAdapter:
@@ -10,17 +7,15 @@ class YandexGptAdapter:
         self.api_key = api_key
         self.model_uri = model_uri
         self.timeout_s = timeout_s
-        self.completion_url: str = (
-            "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
-        )
+        self.completion_url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
 
     def complete(self, prompt: str) -> str:
         payload: Dict[str, Any] = {
             "modelUri": self.model_uri,
             "completionOptions": {
                 "stream": False,
-                "temperature": 0.2,
-                "maxTokens": "2000",
+                "temperature": 0.1,
+                "maxTokens": 2000,
             },
             "messages": [{"role": "user", "text": prompt}],
         }
