@@ -10,6 +10,7 @@ from tg_bot.domain import MessagesToUser
 from tg_bot.domain import MessageProcessingStates
 from parser_module.entrypoints import handle_message
 from parser_module.entrypoints import handle_event_update
+from tg_bot.use_cases import format_event
 
 class MessageHandler:
     """
@@ -25,7 +26,6 @@ class MessageHandler:
 
         if not current_state:
             parsed_event = handle_message(message)
-            print(parsed_event)
             try:
                 await state.update_data(event=parsed_event["data"])
             except:
@@ -35,7 +35,7 @@ class MessageHandler:
             if parsed_event["status"] == "success":
                 await self.sender.send_text(
                     message,
-                    f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {parsed_event}",
+                    f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(parsed_event['data'])}",
                     reply_markup=ConfirmKeyboard.build(),
                 )
             else:
@@ -52,32 +52,32 @@ class MessageHandler:
         if current_state == MessageProcessingStates.EDITING_DATE_START.state:
             new_event_parsed_event = handle_event_update(current_event, "date_start", message.text)
             await self.sender.send_text(message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}",
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
 
         elif current_state == MessageProcessingStates.EDITING_DATE_END.state:
             new_event_parsed_event = handle_event_update(current_event, "date_end", message.text)
             await self.sender.send_text(message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}",
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
 
         elif current_state == MessageProcessingStates.EDITING_NAME.state:
             # отправить в парсер заново переделать поле события и получить новое событие
             new_event_parsed_event = handle_event_update(current_event, "name", message.text)
             await self.sender.send_text(message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}",
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
         elif current_state == MessageProcessingStates.EDITING_DESCRIPTION.state:
             # отправить в парсер заново переделать поле события и получить новое событие
             new_event_parsed_event = handle_event_update(current_event, "description", message.text)
             await self.sender.send_text(message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}",
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
         elif current_state == MessageProcessingStates.EDITING_LOCATION.state:
             # отправить в парсер заново переделать поле события и получить новое событие
             new_event_parsed_event = handle_event_update(current_event, "location", message.text)
             await self.sender.send_text(message,
-                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {new_event_parsed_event}",
+                                        f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
         # await state.clear()
         await state.set_state(None)
