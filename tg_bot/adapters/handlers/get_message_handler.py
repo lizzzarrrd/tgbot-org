@@ -8,7 +8,7 @@ from tg_bot.adapters import MessageSender
 from tg_bot.domain import ConfirmKeyboard
 from tg_bot.domain import MessagesToUser
 from tg_bot.domain import MessageProcessingStates
-from parser_module.entrypoints.bot_handler import handle_message
+from parser_module.entrypoints import handle_message
 
 class MessageHandler:
     """
@@ -19,6 +19,7 @@ class MessageHandler:
         self.sender: MessageSender = sender
 
     async def handle(self, message: types.Message, state: FSMContext) -> None:
+
         current_state = await state.get_state()
 
         if not current_state:
