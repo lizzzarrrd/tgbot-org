@@ -6,3 +6,5 @@ alembic
 pydantic-settings
 greenlet
 requests
+pytest-asyncio
+coverage
