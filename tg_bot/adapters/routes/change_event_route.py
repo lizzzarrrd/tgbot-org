@@ -17,10 +17,11 @@ class ChangeEventCallbacksRoute(BaseRoute):
         @self.router.callback_query(
             F.data.in_(
                 {
-                    TransformEventButton.TRANSORM_DATE,
-                    TransformEventButton.TRANSORM_TIME,
+                    TransformEventButton.TRANSORM_DATE_START,
+                    TransformEventButton.TRANSORM_DATE_END,
                     TransformEventButton.TRANSORM_NAME,
                     TransformEventButton.TRANSORM_DESCRIPTION,
+                    TransformEventButton.TRANSORM_LOCATION
                 }
             )
         )
