@@ -6,4 +6,6 @@ alembic
 pydantic-settings
 greenlet
 requests
+pytest-asyncio
+coverage
 google-auth-oauthlib

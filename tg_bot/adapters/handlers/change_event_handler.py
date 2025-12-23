@@ -22,7 +22,7 @@ class ChangeEventHandler:
 
         elif pressed_button == TransformEventButton.TRANSORM_DATE_END:
             await self.sender.send_text(callback.message,
-                                        TransformEventButton.TRANSORM_TIME_PUSHED)
+                                        TransformEventButton.TRANSORM_DATE_PUSHED)
             await state.set_state(MessageProcessingStates.TRANSORM_DATE_END)
 
         elif pressed_button == TransformEventButton.TRANSORM_NAME:
