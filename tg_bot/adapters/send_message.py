@@ -1,7 +1,7 @@
 from __future__ import annotations
 from aiogram import Bot
 from typing import Optional, Union
-from aiogram.types import Message, ReplyKeyboardMarkup, InlineKeyboardMarkup
+from aiogram.types import Message, ReplyKeyboardMarkup, InlineKeyboardMarkup, InputFile, FSInputFile
 
 Markup = Union[ReplyKeyboardMarkup, InlineKeyboardMarkup]
 
@@ -34,8 +34,11 @@ class MessageSender:
     ) -> None:
         """
         Отправка файла пользователю,
-        используется другая функция answer_document.
+        используется другая функция answer_document, Aiogram v3: FSInputFile.
         """
-        await message.answer("Погоди, пока не работает, заглушка", reply_markup=None)
-        # input_file: InputFile = InputFile(file_path)
-        # await message.answer_document(input_file, caption=caption)
+        try:
+            input_file = FSInputFile(file_path)
+        except Exception:
+            input_file = InputFile(file_path)
+
+        await message.answer_document(input_file, caption=caption)

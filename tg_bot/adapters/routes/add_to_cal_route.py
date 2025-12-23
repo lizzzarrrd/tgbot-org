@@ -1,4 +1,6 @@
 from aiogram import types, F
+from aiogram.fsm.context import FSMContext
+
 from .base_route import BaseRoute
 from tg_bot.adapters import MessageSender, AddictionToCalendarHandler
 from tg_bot.domain import EditEventButton
@@ -23,5 +25,6 @@ class CalendarAddictionCallbacksRoute(BaseRoute):
         )
         async def calendar_addiction_callbacks(
             callback: types.CallbackQuery,
+            state: FSMContext,
         ) -> None:
-            await self.addiction_handler.handle_for_calendar_addiction(callback)
+            await self.addiction_handler.handle_for_calendar_addiction(callback, state)
