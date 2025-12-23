@@ -6,3 +6,4 @@ alembic
 pydantic-settings
 greenlet
 requests
+google-auth-oauthlib
