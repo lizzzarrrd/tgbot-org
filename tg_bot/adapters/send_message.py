@@ -22,9 +22,15 @@ class MessageSender:
             reply_markup: Optional[Markup] = None,
     ) -> None:
         """
-        Отправка просто сообщения пользователю.
+        Отправка просто сообщения пользователю на входящее сообщения
         """
         await message.answer(text, reply_markup=reply_markup)
+
+    async def send_text_to_chat(self, chat_id: int, text: str) -> None:
+        """
+        Отправка сообщения в чат независимо ни от чего
+        """
+        await self.bot.send_message(chat_id, text)
 
     async def send_file(
             self,

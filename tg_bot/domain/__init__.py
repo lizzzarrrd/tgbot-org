@@ -15,6 +15,9 @@ from .state import MessageProcessingStates
 
 from .database import User, Base
 
+from tg_bot.domain.database import GoogleToken
+
+
 __all__: tuple[str, ...] = ["ConfirmKeyboard",
                             "EditEventKeyboard",
                             "TransformEventKeyboard",
@@ -25,4 +28,5 @@ __all__: tuple[str, ...] = ["ConfirmKeyboard",
                             "MessageProcessingStates",
                             "User",
                             "Base",
+                            "GoogleToken"
                         ]
