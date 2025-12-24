@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from tg_bot.adapters import AddictionToCalendarHandler
-from tg_bot.domain import EditEventButton
+from tg_bot.domain import EditEventButton, MessagesToUser
 
 HANDLER_MODULE = AddictionToCalendarHandler.__module__
 
@@ -10,7 +10,6 @@ HANDLER_MODULE = AddictionToCalendarHandler.__module__
 @pytest.mark.asyncio
 class TestAddictionToCalendarHandler:
     """Тесты для обработчика добавления событий в календари."""
-
 
     @pytest.fixture
     def mock_sender(self) -> AsyncMock:
@@ -37,7 +36,6 @@ class TestAddictionToCalendarHandler:
         callback.from_user.id = 12345
         return callback
 
-
     @pytest.fixture
     def mock_event_cls(self):
         """Патчит класс Event внутри модуля хендлера."""
@@ -56,7 +54,6 @@ class TestAddictionToCalendarHandler:
         with patch(f"{HANDLER_MODULE}.write_ics_for_project_event") as mock:
             mock.return_value = "/tmp/fake_event.ics"
             yield mock
-
 
     async def test_yandex_click(
         self,
@@ -92,8 +89,9 @@ class TestAddictionToCalendarHandler:
 
         mock_callback.answer.assert_called_once()
         mock_sender.send_text.assert_called_once()
-        args, _ = mock_sender.send_text.call_args
-        assert "Google Calendar не настроен" in args[1]
+        
+        _, kwargs = mock_sender.send_text.call_args
+        assert kwargs['text'] == MessagesToUser.PLUG
 
     async def test_ics_click(
         self,
@@ -112,5 +110,5 @@ class TestAddictionToCalendarHandler:
         mock_callback.answer.assert_called_once()
         mock_sender.send_file.assert_called_once()
         
-        args, kwargs = mock_sender.send_file.call_args
+        _, kwargs = mock_sender.send_file.call_args
         assert kwargs["file_path"] == "/tmp/fake_event.ics"

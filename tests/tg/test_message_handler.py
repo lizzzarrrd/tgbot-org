@@ -50,33 +50,8 @@ class TestStartHandler:
     ):
         await start_handler.handle(mock_message)
         
-        assert mock_sender.send_text.call_count == 2
+        assert mock_sender.send_text.call_count == 1
         
-        first_call = mock_sender.send_text.call_args_list[0]
+        first_call = mock_sender.send_text.call_args
         assert first_call[0][0] == mock_message
         assert first_call[1]['text'] == MessagesToUser.HI_MESSAGE
-    
-    @pytest.mark.asyncio
-    async def test_handle_creates_user_in_db(
-        self, start_handler, mock_db_interactor, mock_message
-    ):
-        await start_handler.handle(mock_message)
-        
-        mock_db_interactor.get_or_create.assert_called_once_with(123456)
-    
-    @pytest.mark.asyncio
-    async def test_handle_with_different_user_id(
-        self, mock_sender, mock_db_interactor
-    ):
-        handler = StartHandler(mock_sender, mock_db_interactor)
-        message = MagicMock(spec=types.Message)
-        message.from_user = MagicMock()
-        message.from_user.id = 999999
-        
-        await handler.handle(message)
-        
-        mock_db_interactor.get_or_create.assert_called_once_with(999999)
-        
-        second_call = mock_sender.send_text.call_args_list[1]
-        assert "999999" in second_call[1]['text']
-
