@@ -30,7 +30,7 @@ class MessageHandler:
             try:
                 await state.update_data(event=parsed_event["data"])
             except:
-                await self.sender.send_text(message, text=MessagesToUser.WRONG)
+                await self.sender.send_text(message, text=MessagesToUser.WRONG_SEND_NEW)
                 return
 
             if parsed_event["status"] == "success":
