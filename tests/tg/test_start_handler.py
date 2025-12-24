@@ -45,5 +45,5 @@ class TestStartHandler:
         first_call = mock_sender.send_text.call_args
         assert first_call[0][0] == mock_message
         assert first_call[1]['text'] == MessagesToUser.HI_MESSAGE
-        
-        mock_db_interactor.get_or_create.assert_not_called()
+
+        mock_db_interactor.get_or_create.assert_called_once_with(123456)
