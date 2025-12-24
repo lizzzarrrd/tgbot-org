@@ -9,28 +9,28 @@ HANDLER_MODULE = AddictionToCalendarHandler.__module__
 
 @pytest.mark.asyncio
 class TestAddictionToCalendarHandler:
-    """Тесты для обработчика добавления событий в календари."""
+    """Тесты для обработчика добавления событий в календари"""
 
     @pytest.fixture
     def mock_sender(self) -> AsyncMock:
-        """Мок для отправителя сообщений."""
+        """Мок для отправителя сообщений"""
         return AsyncMock()
 
     @pytest.fixture
     def handler(self, mock_sender) -> AddictionToCalendarHandler:
-        """Экземпляр тестируемого хендлера."""
+        """Экземпляр тестируемого хендлера"""
         return AddictionToCalendarHandler(sender=mock_sender)
 
     @pytest.fixture
     def mock_state(self) -> AsyncMock:
-        """Мок FSMContext с предустановленными данными события."""
+        """Мок FSMContext с предустановленными данными события"""
         state = AsyncMock()
         state.get_data.return_value = {"event": {"dummy_key": "dummy_val"}}
         return state
 
     @pytest.fixture
     def mock_callback(self) -> AsyncMock:
-        """Базовый мок для CallbackQuery."""
+        """Базовый мок для CallbackQuery"""
         callback = AsyncMock()
         callback.message = AsyncMock()
         callback.from_user.id = 12345
@@ -38,19 +38,19 @@ class TestAddictionToCalendarHandler:
 
     @pytest.fixture
     def mock_event_cls(self):
-        """Патчит класс Event внутри модуля хендлера."""
+        """Патчит класс Event внутри модуля хендлера"""
         with patch(f"{HANDLER_MODULE}.Event") as mock:
             yield mock
 
     @pytest.fixture
     def mock_settings(self):
-        """Патчит настройки (settings) внутри модуля хендлера."""
+        """Патчит настройки (settings) внутри модуля хендлера"""
         with patch(f"{HANDLER_MODULE}.settings", new=MagicMock()) as mock:
             yield mock
 
     @pytest.fixture
     def mock_ics_writer(self):
-        """Патчит функцию записи ICS файла."""
+        """Патчит функцию записи ICS файла"""
         with patch(f"{HANDLER_MODULE}.write_ics_for_project_event") as mock:
             mock.return_value = "/tmp/fake_event.ics"
             yield mock
@@ -63,7 +63,7 @@ class TestAddictionToCalendarHandler:
         mock_state: AsyncMock,
         mock_event_cls: MagicMock,
     ):
-        """Проверка нажатия кнопки 'Добавить в Яндекс'."""
+        """Проверка нажатия кнопки 'Добавить в Яндекс'"""
         mock_callback.data = EditEventButton.EDIT_TO_YANDEX
 
         await handler.handle_for_calendar_addiction(mock_callback, mock_state)
@@ -80,7 +80,7 @@ class TestAddictionToCalendarHandler:
         mock_event_cls: MagicMock,
         mock_settings: MagicMock,
     ):
-        """Проверка нажатия 'Google', если не заданы настройки (client_id)."""
+        """Проверка нажатия 'Google', если не заданы настройки (client_id)"""
         mock_callback.data = EditEventButton.EDIT_TO_GOOGLE
         
         mock_settings.google_client_id = None
@@ -102,7 +102,7 @@ class TestAddictionToCalendarHandler:
         mock_event_cls: MagicMock,
         mock_ics_writer: MagicMock,
     ):
-        """Проверка нажатия 'Скачать ICS'."""
+        """Проверка нажатия 'Скачать ICS'"""
         mock_callback.data = EditEventButton.MAKE_ICS
 
         await handler.handle_for_calendar_addiction(mock_callback, mock_state)
