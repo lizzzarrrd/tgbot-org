@@ -145,7 +145,7 @@ class AddictionToCalendarHandler:
                 await session3.commit()
 
             await self.sender.send_text(
-                callback.message, text=f"{MessagesToUser.PLUG} {auth_url}")
+                callback.message, text=f"{MessagesToUser.GOOGLE_M1} {auth_url}")
             await callback.answer()
             return
 
