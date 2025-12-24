@@ -111,7 +111,7 @@ def build_google_event_payload(event) -> Dict[str, Any]:
 
     def to_rfc3339(dt):
         if dt.tzinfo is None:
-            return dt.isoformat() + "Z"
+            dt = dt.replace(tzinfo=MSK)
         return dt.isoformat()
 
     payload: Dict[str, Any] = {
