@@ -13,6 +13,7 @@ from core.config import settings
 
 from tg_bot.adapters.send_message import MessageSender
 
+from tg_bot.domain import MessagesToUser
 from tg_bot.domain import MessagesToUser, EditEventButton
 from tg_bot.infra.init_db import async_session_factory
 from parser_module.domain.models import Event
@@ -55,7 +56,7 @@ class AddictionToCalendarHandler:
         if not event_dict:
             await self.sender.send_text(
                 callback.message,
-                "Сообщение не найдено, отправьте еще раз",
+                text=MessagesToUser.WRONG,
             )
             await callback.answer()
             return
@@ -63,17 +64,13 @@ class AddictionToCalendarHandler:
         event = Event.model_validate(event_dict)
 
         if pressed_button == EditEventButton.EDIT_TO_YANDEX:
-            await self.sender.send_text(callback.message, "not implemented yet")
-            # await self.sender.send_text(callback.message, MessagesToUser.ADDED_TO_YANDEX)
+            await self.sender.send_text(callback.message, text=MessagesToUser.PLUG)
             await callback.answer()
             return
 
         if pressed_button == EditEventButton.EDIT_TO_GOOGLE:
             if not getattr(settings, "google_client_id", None) or not getattr(settings, "google_redirect_uri", None):
-                await self.sender.send_text(
-                    callback.message,
-                    "Google Calendar не настроен: нужны GOOGLE_CLIENT_ID и GOOGLE_REDIRECT_URI в .env",
-                )
+                await self.sender.send_text(callback.message, text=MessagesToUser.PLUG)
                 await callback.answer()
                 return
 
@@ -118,9 +115,7 @@ class AddictionToCalendarHandler:
                     await add_event_with_refresh(token_row.refresh_token)
                     await self.sender.send_text(callback.message, MessagesToUser.ADDED_TO_GOOGLE)
                 except GoogleAuthError as e:
-                    await self.sender.send_text(
-                        callback.message, f"Не получилось добавить в Google Calendar: {e}"
-                    )
+                    await self.sender.send_text(callback.message, text=MessagesToUser.PLUG)
                 await callback.answer()
                 return
 
@@ -150,12 +145,7 @@ class AddictionToCalendarHandler:
                 await session3.commit()
 
             await self.sender.send_text(
-                callback.message,
-                "Чтобы добавить в Google Calendar, нужно один раз авторизоваться.\n\n"
-                "1) Нажмите ссылку ниже и подтвердите доступ\n"
-                "2) После подтверждения можно закрыть вкладку — бот сам добавит событие\n\n"
-                f"Ссылка: {auth_url}",
-            )
+                callback.message, text=f"{MessagesToUser.GOOGLE_M1} {auth_url}")
             await callback.answer()
             return
 

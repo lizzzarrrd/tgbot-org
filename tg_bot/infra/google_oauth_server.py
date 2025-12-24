@@ -12,6 +12,8 @@ from core.config import settings
 from tg_bot.infra.init_db import async_session_factory
 from tg_bot.infra.init_bot import bot
 
+from tg_bot.domain import MessagesToUser
+
 from calendar_actions.google_calendar import (
     OAuthClient as RefreshOAuthClient,
     refresh_access_token,
@@ -111,10 +113,10 @@ async def _handle_google_callback(request: web.Request) -> web.Response:
         payload = build_google_event_payload(event)
         await asyncio.to_thread(insert_event_to_google_calendar, access_token, payload)
 
-        await bot.send_message(pending.chat_id, "Событие добавлено в Google Calendar!")
+        await bot.send_message(pending.chat_id, text=MessagesToUser.ADDED_TO_GOOGLE_CAL)
     except Exception as e:
         try:
-            await bot.send_message(pending.chat_id, f"Не получилось добавить событие в Google Calendar: {e}")
+            await bot.send_message(pending.chat_id, text=MessagesToUser.WRONG)
         except Exception:
             pass
 
