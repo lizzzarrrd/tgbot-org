@@ -1,45 +1,51 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import time
+from pathlib import Path
 
 from aiogram import types
 from aiogram.fsm.context import FSMContext
-from pathlib import Path
 from sqlalchemy import select
-
-
-from tg_bot.adapters import MessageSender
-from tg_bot.domain import MessagesToUser, EditEventButton
-from tg_bot.infra.init_db import async_session_factory
 
 from core.config import settings
 
+from tg_bot.adapters.send_message import MessageSender
+
+from tg_bot.domain import MessagesToUser, EditEventButton
+from tg_bot.infra.init_db import async_session_factory
 from parser_module.domain.models import Event
 
 from calendar_actions.ics_generator import write_ics_for_project_event
 from calendar_actions.google_calendar import (
     OAuthClient,
     GoogleAuthError,
-    start_device_flow,
-    poll_device_flow_token,
     refresh_access_token,
     build_google_event_payload,
     insert_event_to_google_calendar,
 )
+from calendar_actions.google_oauth_web import (
+    generate_pkce_pair,
+    generate_state,
+    build_authorization_url,
+)
 
 from tg_bot.domain.database.google_token import GoogleToken
+from tg_bot.domain.database.google_oauth_state import GoogleOAuthState
+
 
 class AddictionToCalendarHandler:
     def __init__(self, sender: MessageSender) -> None:
         self.sender: MessageSender = sender
 
     async def handle_for_calendar_addiction(
-            self,
-            callback: types.CallbackQuery,
-            state: FSMContext,
-            ) -> None:
+        self,
+        callback: types.CallbackQuery,
+        state: FSMContext,
+    ) -> None:
         pressed_button: EditEventButton = EditEventButton(callback.data)
+
         if callback.message:
             await callback.message.edit_reply_markup(reply_markup=None)
 
@@ -57,14 +63,16 @@ class AddictionToCalendarHandler:
         event = Event.model_validate(event_dict)
 
         if pressed_button == EditEventButton.EDIT_TO_YANDEX:
-            # Polina_s_module_for_yandex_calendar(parsed_event from Egor)
-            await self.sender.send_text(callback.message,
-                                        MessagesToUser.ADDED_TO_YANDEX)
-        elif pressed_button == EditEventButton.EDIT_TO_GOOGLE:
-            if not getattr(settings, "google_client_id", None):
+            await self.sender.send_text(callback.message, "not implemented yet")
+            # await self.sender.send_text(callback.message, MessagesToUser.ADDED_TO_YANDEX)
+            await callback.answer()
+            return
+
+        if pressed_button == EditEventButton.EDIT_TO_GOOGLE:
+            if not getattr(settings, "google_client_id", None) or not getattr(settings, "google_redirect_uri", None):
                 await self.sender.send_text(
                     callback.message,
-                    "Google Calendar не настроен: отсутствует GOOGLE_CLIENT_ID в .env",
+                    "Google Calendar не настроен: нужны GOOGLE_CLIENT_ID и GOOGLE_REDIRECT_URI в .env",
                 )
                 await callback.answer()
                 return
@@ -92,8 +100,8 @@ class AddictionToCalendarHandler:
                 payload = build_google_event_payload(event)
                 await asyncio.to_thread(insert_event_to_google_calendar, access_token, payload)
 
-                async with async_session_factory() as session:
-                    result2 = await session.execute(
+                async with async_session_factory() as session2:
+                    result2 = await session2.execute(
                         select(GoogleToken).where(GoogleToken.telegram_id == telegram_id)
                     )
                     row2: GoogleToken | None = result2.scalar_one_or_none()
@@ -102,8 +110,9 @@ class AddictionToCalendarHandler:
                         row2.expires_at = expires_at
                         row2.token_type = token_data.get("token_type")
                         row2.scope = token_data.get("scope")
-                        await session.commit()
+                        await session2.commit()
 
+            # Если refresh_token уже есть, то просто добавляем событие
             if token_row and token_row.refresh_token:
                 try:
                     await add_event_with_refresh(token_row.refresh_token)
@@ -115,90 +124,42 @@ class AddictionToCalendarHandler:
                 await callback.answer()
                 return
 
-            try:
-                device = await asyncio.to_thread(start_device_flow, oauth)
-            except GoogleAuthError as e:
-                await self.sender.send_text(callback.message, f"Не удалось начать авторизацию Google: {e}")
-                await callback.answer()
-                return
+            # Иначе даём ссылку на авторизацию
+            state_str = generate_state()
+            code_verifier, code_challenge = generate_pkce_pair()
+            scopes = ["https://www.googleapis.com/auth/calendar.events"]
 
-            user_code = device["user_code"]
-            verification_url = device.get("verification_url") or device.get("verification_uri")
-            device_code = device["device_code"]
-            expires_in = int(device.get("expires_in", 600))
-            interval = int(device.get("interval", 5))
+            auth_url = build_authorization_url(
+                client_id=settings.google_client_id,
+                redirect_uri=settings.google_redirect_uri,
+                scopes=scopes,
+                state=state_str,
+                code_challenge=code_challenge,
+            )
+
+            async with async_session_factory() as session3:
+                session3.add(
+                    GoogleOAuthState(
+                        state=state_str,
+                        telegram_id=telegram_id,
+                        chat_id=chat_id,
+                        code_verifier=code_verifier,
+                        event_json=json.dumps(event_dict, ensure_ascii=False),
+                    )
+                )
+                await session3.commit()
 
             await self.sender.send_text(
                 callback.message,
                 "Чтобы добавить в Google Calendar, нужно один раз авторизоваться.\n\n"
-                f"1) Открой: {verification_url}\n"
-                f"2) Введи код: {user_code}\n\n"
-                "Я подожду авторизацию и добавлю событие автоматически.",
+                "1) Нажмите ссылку ниже и подтвердите доступ\n"
+                "2) После подтверждения можно закрыть вкладку — бот сам добавит событие\n\n"
+                f"Ссылка: {auth_url}",
             )
-
-            async def background_wait_and_add() -> None:
-                try:
-                    token_data = await asyncio.to_thread(
-                        poll_device_flow_token,
-                        oauth,
-                        device_code,
-                        interval,
-                        expires_in,
-                    )
-
-                    refresh_token = token_data.get("refresh_token") or ""
-                    access_token = token_data["access_token"]
-                    expires_at = int(time.time()) + int(token_data.get("expires_in", 3600))
-
-                    async with async_session_factory() as session:
-                        result3 = await session.execute(
-                            select(GoogleToken).where(GoogleToken.telegram_id == telegram_id)
-                        )
-                        row3: GoogleToken | None = result3.scalar_one_or_none()
-
-                        if row3 is None:
-                            row3 = GoogleToken(
-                                telegram_id=telegram_id,
-                                refresh_token=refresh_token,
-                                access_token=access_token,
-                                expires_at=expires_at,
-                                token_type=token_data.get("token_type"),
-                                scope=token_data.get("scope"),
-                            )
-                            session.add(row3)
-                        else:
-                            if refresh_token:
-                                row3.refresh_token = refresh_token
-                            row3.access_token = access_token
-                            row3.expires_at = expires_at
-                            row3.token_type = token_data.get("token_type")
-                            row3.scope = token_data.get("scope")
-
-                        await session.commit()
-
-                    payload = build_google_event_payload(event)
-                    await asyncio.to_thread(
-                        insert_event_to_google_calendar,
-                        access_token,
-                        payload)
-
-                    await self.sender.send_text_to_chat(
-                        chat_id,
-                        MessagesToUser.ADDED_TO_GOOGLE)
-
-                except GoogleAuthError as e:
-                    await self.sender.send_text_to_chat(chat_id,
-                                                        f"Google авторизация не удалась: {e}")
-                except Exception as e:
-                    await self.sender.send_text_to_chat(chat_id,
-                                                        f"Ошибка при добавлении в Google Calendar: {e}")
-
-            asyncio.create_task(background_wait_and_add())
-
             await callback.answer()
             return
 
-        elif pressed_button == EditEventButton.MAKE_ICS:
+        if pressed_button == EditEventButton.MAKE_ICS:
             user_id = callback.from_user.id if callback.from_user else 0
             out_dir = Path("/data/ics") / str(user_id)
             out_path = out_dir / "event.ics"
@@ -209,4 +170,7 @@ class AddictionToCalendarHandler:
                 file_path=file_path,
                 caption=MessagesToUser.TAKE_ICS,
             )
+            await callback.answer()
+            return
+
         await callback.answer()

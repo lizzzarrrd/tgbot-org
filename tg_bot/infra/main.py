@@ -1,19 +1,24 @@
 import asyncio
 import logging
 
-from .init_bot import bot, dp, router
-from .init_db import engine
+from tg_bot.infra.init_bot import bot, dp, router
+from tg_bot.infra.init_db import engine
 from tg_bot.domain.database.base import Base
 from tg_bot.adapters import InitRoute
 
-routes = InitRoute
-routes.setup_routes(router)
+from tg_bot.infra.google_oauth_server import start_google_oauth_server, cleanup_oauth_states_task
 
 logging.basicConfig(level=logging.INFO)
+
 
 async def main() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    InitRoute.setup_routes(router)
+
+    await start_google_oauth_server()
+    asyncio.create_task(cleanup_oauth_states_task())
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
@@ -21,4 +26,3 @@ async def main() -> None:
 
 if __name__ == "__main__":
     asyncio.run(main())
-    
