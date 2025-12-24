@@ -1,6 +1,6 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from tg_bot.domain import User
+from tg_bot import User
 
 
 class BdInteractor:
