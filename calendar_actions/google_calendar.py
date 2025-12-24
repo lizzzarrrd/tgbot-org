@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+from datetime import timezone, timedelta
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
@@ -109,9 +110,11 @@ def build_google_event_payload(event) -> Dict[str, Any]:
     start_dt = event.date_start
     end_dt = event.date_end or event.date_start
 
+    MSK = timezone(timedelta(hours=3))
+    
     def to_rfc3339(dt):
         if dt.tzinfo is None:
-            return dt.isoformat() + "Z"
+            dt = dt.replace(tzinfo=MSK)
         return dt.isoformat()
 
     payload: Dict[str, Any] = {

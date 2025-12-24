@@ -9,8 +9,8 @@ from aiohttp import web
 from sqlalchemy import select, delete
 
 from core.config import settings
-from tg_bot.infra.init_db import async_session_factory
-from tg_bot.infra.init_bot import bot
+from tg_bot import async_session_factory
+from tg_bot import bot
 
 from tg_bot.domain import MessagesToUser
 

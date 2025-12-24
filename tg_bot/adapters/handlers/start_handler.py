@@ -17,5 +17,6 @@ class StartHandler:
 
     async def handle(self, message: types.Message) -> None:
         await self.sender.send_text(message, text=MessagesToUser.HI_MESSAGE)
-
+        telegram_id = message.from_user.id
+        await self.interactor_with_db.get_or_create(telegram_id)
 
