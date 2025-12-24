@@ -28,7 +28,10 @@ def _ics_escape(text: str) -> str:
 
 
 def _fmt_dt_utc(dt: datetime) -> str:
-    dt = _to_utc(dt)
+    MSK = timezone(timedelta(hours=3))
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=MSK)
+    dt = dt.astimezone(timezone.utc)
     return dt.strftime("%Y%m%dT%H%M%SZ")
 
 
