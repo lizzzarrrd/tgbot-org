@@ -1,10 +1,10 @@
 import asyncio
 import logging
 
-from tg_bot.infra.init_bot import bot, dp, router
-from tg_bot.infra.init_db import engine
-from tg_bot.domain.database.base import Base
-from tg_bot.adapters import InitRoute
+from tg_bot import bot, dp, router
+from tg_bot import engine
+from tg_bot import Base
+from tg_bot import InitRoute
 
 from tg_bot.infra.google_oauth_server import start_google_oauth_server, cleanup_oauth_states_task
 

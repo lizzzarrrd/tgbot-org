@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Project settings loaded from .env"""
 
-    db_path: str = Field(..., description="Path to sqlite db file")
+    db_path: str = "data/db.sqlite3"
     api_token_bot: str
     yandex_api_key: str
     yandex_model_uri: str

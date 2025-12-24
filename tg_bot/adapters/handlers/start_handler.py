@@ -19,6 +19,4 @@ class StartHandler:
         await self.sender.send_text(message, text=MessagesToUser.HI_MESSAGE)
         telegram_id = message.from_user.id
         await self.interactor_with_db.get_or_create(telegram_id)
-        await self.sender.send_text(message, text=f"все норм получилось, ты зареган по id {telegram_id}, давай теперь засылай событие")
-
 
