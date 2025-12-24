@@ -40,16 +40,10 @@ class TestStartHandler:
                                  mock_db_interactor, mock_message):
         await start_handler.handle(mock_message)
         
-        assert mock_sender.send_text.call_count == 2
+        assert mock_sender.send_text.call_count == 1
         
-        first_call = mock_sender.send_text.call_args_list[0]
+        first_call = mock_sender.send_text.call_args
         assert first_call[0][0] == mock_message
         assert first_call[1]['text'] == MessagesToUser.HI_MESSAGE
         
-        mock_db_interactor.get_or_create.assert_called_once_with(123456)
-        
-        second_call = mock_sender.send_text.call_args_list[1]
-        assert second_call[0][0] == mock_message
-        assert "все норм получилось" in second_call[1]['text']
-        assert "123456" in second_call[1]['text']
-    
+        mock_db_interactor.get_or_create.assert_not_called()
