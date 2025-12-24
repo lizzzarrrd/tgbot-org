@@ -13,7 +13,6 @@ from core.config import settings
 
 from tg_bot.adapters.send_message import MessageSender
 
-from tg_bot.domain import MessagesToUser
 from tg_bot.domain import MessagesToUser, EditEventButton
 from tg_bot.infra.init_db import async_session_factory
 from parser_module.domain.models import Event
