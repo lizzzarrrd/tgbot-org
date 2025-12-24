@@ -15,10 +15,6 @@ DEFAULT_SCOPES = [
 class OAuthClient:
     client_id: str
     client_secret: Optional[str] = None
-    # client_secret у нас не используется, то есть всегда None,
-    # но надо оставить для универсальности и если захотим доделать,
-    # то для более простой совместимости в будущем с Web OAuth
-    # кароч на будущее))
     scopes: list[str] = None  # type: ignore
 
     def __post_init__(self):
