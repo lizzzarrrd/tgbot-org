@@ -5,6 +5,7 @@ from aiogram.fsm.context import FSMContext
 
 from tg_bot.adapters import MessageSender
 
+from tg_bot.domain import MessagesToUser
 from tg_bot.domain import ConfirmKeyboard
 from tg_bot.domain import MessagesToUser
 from tg_bot.domain import MessageProcessingStates
@@ -29,7 +30,7 @@ class MessageHandler:
             try:
                 await state.update_data(event=parsed_event["data"])
             except:
-                await self.sender.send_text(message, "Пошел нахуй")
+                await self.sender.send_text(message, text=MessagesToUser.WRONG)
                 return
 
             if parsed_event["status"] == "success":
@@ -46,7 +47,7 @@ class MessageHandler:
         current_event = data.get("event")
         if not current_event:
             await state.clear()
-            await self.sender.send_text(message, "Событие не найдено, отправь исходный текст заново.")
+            await self.sender.send_text(message, text=MessagesToUser.WRONG)
             return
 
         if current_state == MessageProcessingStates.EDITING_DATE_START.state:
@@ -62,24 +63,20 @@ class MessageHandler:
                 reply_markup=ConfirmKeyboard.build(),)
 
         elif current_state == MessageProcessingStates.EDITING_NAME.state:
-            # отправить в парсер заново переделать поле события и получить новое событие
             new_event_parsed_event = handle_event_update(current_event, "name", message.text)
             await self.sender.send_text(message,
                                         f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
         elif current_state == MessageProcessingStates.EDITING_DESCRIPTION.state:
-            # отправить в парсер заново переделать поле события и получить новое событие
             new_event_parsed_event = handle_event_update(current_event, "description", message.text)
             await self.sender.send_text(message,
                                         f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
         elif current_state == MessageProcessingStates.EDITING_LOCATION.state:
-            # отправить в парсер заново переделать поле события и получить новое событие
             new_event_parsed_event = handle_event_update(current_event, "location", message.text)
             await self.sender.send_text(message,
                                         f"{MessagesToUser.CONFIRM_BUTTON_MESSAGE} {format_event(new_event_parsed_event['data'])}",
                 reply_markup=ConfirmKeyboard.build(),)
-        # await state.clear()
         await state.set_state(None)
 
 
